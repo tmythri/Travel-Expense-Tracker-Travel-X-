@@ -913,6 +913,7 @@ select.form-control option {
 }
 
 /* --- LANDING HERO PAGE --- */
+<<<<<<< HEAD
 .landing-header {
     display: flex;
     justify-content: space-between;
@@ -948,6 +949,8 @@ select.form-control option {
     }
 }
 
+=======
+>>>>>>> d03bc019d6595c5588514f919e3c9a22287aa6fc
 .hero-section {
     display: flex;
     flex-direction: column;
