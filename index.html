@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelX - Modern Travel Expense Tracker</title>
+    <link rel="stylesheet" href="style.css?v=1.0.1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="theme.js"></script>
+</head>
+<body>
+    <!-- Decorative Background Orbs -->
+    <div class="orb orb-primary"></div>
+    <div class="orb orb-secondary"></div>
+    <div class="orb orb-accent"></div>
+
+    <!-- Main Container -->
+    <main class="hero-section">
+        <div class="hero-tag">Intelligent Travel Finance</div>
+        <h1 class="hero-title">Track your travel spending in real time.</h1>
+        <p class="hero-desc">
+            Organize trips, divide bills with friends, scan receipts, and get smart AI-driven budgeting insights. Beautiful glassmorphism, offline-ready, and production-optimized.
+        </p>
+        <div class="hero-buttons">
+            <button class="btn btn-primary" id="cta-start">
+                Get Started <i class="bi bi-arrow-right"></i>
+            </button>
+            <button class="btn btn-secondary" id="cta-features">
+                Explore Features <i class="bi bi-compass"></i>
+            </button>
+        </div>
+
+        <!-- Features Showcase Grid -->
+        <div class="features-preview" id="features-section">
+            <div class="feature-box glass">
+                <i class="feature-icon bi bi-grid-1x2-fill"></i>
+                <h3 class="feature-title">Executive Dashboard</h3>
+                <p class="feature-desc">Interactive financial metrics and Chart.js graphs mapping out all travel expenses instantly.</p>
+            </div>
+            <div class="feature-box glass">
+                <i class="feature-icon bi bi-people-fill"></i>
+                <h3 class="feature-title">Split Bills Seamlessly</h3>
+                <p class="feature-desc">Split trip costs dynamically with custom friends circles without complex manual arithmetic.</p>
+            </div>
+            <div class="feature-box glass">
+                <i class="feature-icon bi bi-cpu-fill"></i>
+                <h3 class="feature-title">Gemini AI Insights</h3>
+                <p class="feature-desc">Secure client-side integration with Gemini to get custom budgeting optimizations and trip saving tips.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById("cta-start").addEventListener("click", () => {
+            const user = localStorage.getItem("travel_tracker_user");
+            if (user) {
+                window.location.href = "dashboard.html";
+            } else {
+                window.location.href = "login.html";
+            }
+        });
+
+        document.getElementById("cta-features").addEventListener("click", () => {
+            document.getElementById("features-section").scrollIntoView({ behavior: "smooth" });
+        });
+    </script>
+</body>
+</html>

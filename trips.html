@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelX - My Trips</title>
+    <link rel="stylesheet" href="style.css?v=1.0.1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="theme.js"></script>
+</head>
+<body>
+    <div class="orb orb-primary"></div>
+    <div class="orb orb-secondary"></div>
+
+    <div class="app-container">
+        <!-- Sidebar dynamically injected -->
+
+        <main class="main-content">
+            <!-- Header Banner -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">My Trips</h1>
+                    <p style="color: var(--text-secondary); margin-top: 5px;">Plan travels and regulate budgets.</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-primary" id="open-trip-modal-btn">
+                        <i class="bi bi-plus-lg"></i> Plan New Trip
+                    </button>
+                </div>
+            </div>
+
+            <!-- Trips Grid -->
+            <div class="trips-grid" id="trips-container">
+                <!-- Dynamically injected -->
+                <div class="glass glass-card text-center" style="grid-column: 1 / -1; padding: 40px; color: var(--text-muted);">
+                    <i class="bi bi-compass" style="font-size: 40px; color: var(--text-muted); display: block; margin-bottom: 15px;"></i>
+                    No trips planned yet. Click "Plan New Trip" to get started!
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- --- CREATE TRIP MODAL --- -->
+    <div class="modal-overlay" id="trip-modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h3 id="modal-title">Plan New Trip</h3>
+                <i class="bi bi-x modal-close" id="close-trip-modal-btn"></i>
+            </div>
+            <form id="trip-form">
+                <input type="hidden" id="edit-trip-id">
+                <div class="form-group">
+                    <label class="form-label" for="destination">Destination</label>
+                    <input class="form-control" type="text" id="destination" required placeholder="e.g. Paris, France">
+                </div>
+                <div class="form-row" style="display: flex; gap: 15px; margin-bottom: 20px;">
+                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                        <label class="form-label" for="startDate">Start Date</label>
+                        <input class="form-control" type="date" id="startDate">
+                    </div>
+                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                        <label class="form-label" for="endDate">End Date</label>
+                        <input class="form-control" type="date" id="endDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="budget">Total Budget ($)</label>
+                    <input class="form-control" type="number" min="1" step="any" id="budget" required placeholder="e.g. 3500">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="image">Cover Image URL (Optional)</label>
+                    <input class="form-control" type="url" id="image" placeholder="https://images.unsplash.com/photo...">
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px;">
+                    <button class="btn btn-secondary" type="button" id="cancel-trip-btn">Cancel</button>
+                    <button class="btn btn-primary" type="submit" id="save-trip-btn">Save Trip</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="db.js?v=1.0.2"></script>
+    <script src="components.js?v=1.0.2"></script>
+    <script src="trips.js?v=1.0.2"></script>
+</body>
+</html>

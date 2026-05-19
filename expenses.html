@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelX - Expenses & Splits</title>
+    <link rel="stylesheet" href="style.css?v=1.0.1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="theme.js"></script>
+    <style>
+        /* CSS Scan Animation for Receipt Scanner */
+        .scanner-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            border: 2px dashed var(--glass-border);
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all var(--transition-normal);
+        }
+
+        .scanner-container:hover {
+            border-color: var(--secondary);
+            background: rgba(6, 182, 212, 0.02);
+        }
+
+        .scan-laser {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+            box-shadow: 0 0 12px var(--secondary-glow);
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .scanner-container.scanning .scan-laser {
+            opacity: 1;
+            animation: laserSweep 2s ease-in-out infinite;
+        }
+
+        @keyframes laserSweep {
+            0% { top: 0%; }
+            50% { top: 100%; }
+            100% { top: 0%; }
+        }
+
+        .scan-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 182, 212, 0.05);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .scanner-container.scanning .scan-overlay {
+            opacity: 1;
+            animation: pulseGlow 1s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { opacity: 0.02; }
+            100% { opacity: 0.15; }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-primary"></div>
+    <div class="orb orb-secondary"></div>
+
+    <div class="app-container">
+        <!-- Sidebar dynamically injected -->
+
+        <main class="main-content">
+            <!-- Header Banner -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Expenses Ledger</h1>
+                    <p style="color: var(--text-secondary); margin-top: 5px;">Manage costs, split bills, and scan receipts.</p>
+                </div>
+            </div>
+
+            <!-- Double-column layout: Left (Ledger + Form), Right (AI Receipt Scan + Split Bills) -->
+            <div class="analytics-grid">
+                
+                <!-- LEFT COLUMN: Ledger List and Add Form -->
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <!-- Create Expense Card -->
+                    <div class="glass glass-card">
+                        <h3 class="list-title" style="margin-bottom: 20px;"><i class="bi bi-tag-fill"></i> Log Expense</h3>
+                        <form id="expense-form">
+                            <div class="form-group">
+                                <label class="form-label" for="expense-trip">Select Trip</label>
+                                <select class="form-control" id="expense-trip" required>
+                                    <!-- Injected dynamically -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="expense-title">Expense Title</label>
+                                <input class="form-control" type="text" id="expense-title" required placeholder="e.g. Bistro Parisien Lunch">
+                            </div>
+                            <div class="form-row" style="display: flex; gap: 15px; margin-bottom: 20px;">
+                                <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                                    <label class="form-label" for="expense-amount">Amount ($)</label>
+                                    <input class="form-control" type="number" min="0.01" step="any" id="expense-amount" required placeholder="e.g. 124.50">
+                                </div>
+                                <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                                    <label class="form-label" for="expense-category">Category</label>
+                                    <select class="form-control" id="expense-category" required>
+                                        <option value="food">Food</option>
+                                        <option value="transport">Transport</option>
+                                        <option value="lodging">Lodging</option>
+                                        <option value="activities">Activities</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row" style="display: flex; gap: 15px; margin-bottom: 20px;">
+                                <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                                    <label class="form-label" for="expense-date">Date</label>
+                                    <input class="form-control" type="date" id="expense-date" required>
+                                </div>
+                                <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                                    <label class="form-label" for="expense-method">Payment Method</label>
+                                    <select class="form-control" id="expense-method">
+                                        <option value="Credit Card">Credit Card</option>
+                                        <option value="Cash">Cash</option>
+                                        <option value="Mobile Pay">Mobile Pay</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit" style="width: 100%; justify-content: center; margin-top: 10px;">
+                                <i class="bi bi-check-lg"></i> Record Transaction
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Ledger Table -->
+                    <div class="glass glass-card">
+                        <div class="list-header" style="flex-wrap: wrap; gap: 10px;">
+                            <h3 class="list-title"><i class="bi bi-journal-text"></i> Transactions Ledger</h3>
+                            <!-- Category Filter buttons -->
+                            <div style="display: flex; gap: 8px;">
+                                <select class="form-control" id="filter-trip-select" style="padding: 6px 12px; font-size: 13px; width: auto;">
+                                    <option value="all">All Trips</option>
+                                    <!-- Injected dynamically -->
+                                </select>
+                                <select class="form-control" id="filter-category-select" style="padding: 6px 12px; font-size: 13px; width: auto;">
+                                    <option value="all">All Categories</option>
+                                    <option value="food">Food</option>
+                                    <option value="transport">Transport</option>
+                                    <option value="lodging">Lodging</option>
+                                    <option value="activities">Activities</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Details</th>
+                                        <th>Trip</th>
+                                        <th>Category</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="expenses-ledger-body">
+                                    <!-- Dynamic elements -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: Receipt Scan & Split Expenses -->
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    
+                    <!-- AI Receipt Scanner -->
+                    <div class="glass glass-card">
+                        <h3 class="list-title" style="margin-bottom: 8px;"><i class="bi bi-camera-fill"></i> Smart Receipt Scanner</h3>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 20px;">Upload a receipt photo to automatically extract and pre-fill details.</p>
+                        
+                        <div class="scanner-container" id="receipt-scanner-box">
+                            <div class="scan-laser"></div>
+                            <div class="scan-overlay"></div>
+                            <i class="bi bi-cloud-upload-fill" id="scanner-icon" style="font-size: 36px; color: var(--secondary); margin-bottom: 12px; transition: all 0.3s;"></i>
+                            <span id="scanner-text" style="font-weight: 500; font-size: 14px;">Drag & Drop or Click to Upload</span>
+                            <span id="scanner-subtext" style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Supports PNG, JPG, PDF</span>
+                            <input type="file" id="scanner-file-input" style="display: none;" accept="image/*">
+                        </div>
+                    </div>
+
+                    <!-- Split Expenses Calculator -->
+                    <div class="glass glass-card">
+                        <h3 class="list-title" style="margin-bottom: 8px;"><i class="bi bi-people-fill"></i> Friend Split Calculator</h3>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 20px;">Easily split travel bills with your friends circle.</p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Add Friend to Circle</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input class="form-control" type="text" id="split-friend-name" placeholder="e.g. Alex Smith">
+                                <button class="btn btn-secondary" type="button" id="add-friend-btn"><i class="bi bi-person-plus"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Added Friends Scrollbox -->
+                        <div class="form-group">
+                            <label class="form-label">Friends List</label>
+                            <div class="friends-list" id="split-friends-container">
+                                <!-- Injected dynamically -->
+                                <div style="color: var(--text-muted); font-size: 13px; padding: 10px; text-align: center;">No friends added yet.</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="split-total-amount">Total Bill to Split ($)</label>
+                            <input class="form-control" type="number" min="0.01" step="any" id="split-total-amount" placeholder="e.g. 240.00">
+                        </div>
+
+                        <!-- Split results indicator -->
+                        <div class="glass" style="padding: 16px; background: rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.03); border-radius: var(--radius-md);">
+                            <div class="flex-between" style="font-weight: 700; margin-bottom: 12px;">
+                                <span>Split Summary</span>
+                                <span style="color: var(--secondary);" id="split-summary-value">$0.00 / person</span>
+                            </div>
+                            <div id="split-shares-breakdown">
+                                <!-- Injected shares dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="db.js?v=1.0.2"></script>
+    <script src="components.js?v=1.0.2"></script>
+    <script src="expenses.js?v=1.0.2"></script>
+</body>
+</html>

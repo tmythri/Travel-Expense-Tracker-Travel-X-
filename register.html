@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelX - Sign Up</title>
+    <link rel="stylesheet" href="style.css?v=1.0.1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="theme.js"></script>
+</head>
+<body>
+    <!-- Background Decoration -->
+    <div class="orb orb-primary"></div>
+    <div class="orb orb-secondary"></div>
+
+    <div class="auth-container">
+        <div class="auth-box glass">
+            <div class="auth-header">
+                <div class="auth-logo">
+                    <i class="logo-icon bi bi-compass" style="font-size: 32px;"></i>
+                    <span class="logo-text" style="font-size: 26px;">TravelX</span>
+                </div>
+                <h2 class="auth-title">Create Account</h2>
+                <p class="auth-subtitle">Start tracking your travel budget today</p>
+            </div>
+
+            <form id="register-form">
+                <div class="form-group">
+                    <label class="form-label" for="username">Full Name</label>
+                    <input class="form-control" type="text" id="username" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input class="form-control" type="email" id="email" required placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input class="form-control" type="password" id="password" required placeholder="••••••••">
+                </div>
+                <button class="btn btn-primary" type="submit" style="width: 100%; justify-content: center; margin-top: 10px;">
+                    Create Account <i class="bi bi-person-plus-fill"></i>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Already have an account? <a class="auth-link" href="login.html">Log In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="components.js?v=1.0.2"></script>
+    <script src="auth.js?v=1.0.2"></script>
+    <script>
+        document.getElementById("register-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const res = registerUser(username, email, password);
+            if (res.success) {
+                showToast(res.message, "success");
+                setTimeout(() => {
+                    window.location.href = "dashboard.html";
+                }, 1000);
+            } else {
+                showToast(res.message, "error");
+            }
+        });
+    </script>
+</body>
+</html>
