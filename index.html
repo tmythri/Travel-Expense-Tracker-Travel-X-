@@ -4,31 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TravelX - Modern Travel Expense Tracker</title>
-<<<<<<< HEAD
-    <link rel="stylesheet" href="style.css?v=1.0.2">
+    <meta name="description" content="TravelX - Track your travel spending in real time. Organize trips, split bills, and get AI-driven budgeting insights.">
+    <link rel="stylesheet" href="style.css?v=1.0.3">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="theme.js"></script>
+    <style>
+        #landing-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            background: rgba(8, 10, 22, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        #landing-header .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        #landing-header .nav-login {
+            font-size: 15px;
+            font-weight: 600;
+            color: #f3f4f6;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        #landing-header .nav-login:hover {
+            background: rgba(255,255,255,0.08);
+        }
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh;
+            padding: 100px 20px 60px;
+            position: relative;
+        }
+    </style>
 </head>
-<body style="padding-top: 70px;">
+<body>
     <!-- Landing Header -->
-    <header id="landing-header" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; background: rgba(8, 10, 22, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);">
-        <a href="index.html" class="logo-container" style="margin-bottom: 0; padding: 0; text-decoration: none;">
+    <header id="landing-header">
+        <a href="index.html" class="logo-link">
             <i class="logo-icon bi bi-compass-fill"></i>
             <span class="logo-text">TravelX</span>
         </a>
-        <nav style="display: flex; gap: 20px; align-items: center;">
-            <a href="login.html" style="font-size: 15px; font-weight: 600; color: #f3f4f6; text-decoration: none; padding: 8px 16px; border-radius: 8px; transition: background 0.2s;">Log In</a>
+        <nav style="display: flex; gap: 16px; align-items: center;">
+            <a href="login.html" class="nav-login">Log In</a>
             <a href="register.html" class="btn btn-primary btn-sm">Sign Up</a>
         </nav>
     </header>
 
-=======
-    <link rel="stylesheet" href="style.css?v=1.0.1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script src="theme.js"></script>
-</head>
-<body>
->>>>>>> d03bc019d6595c5588514f919e3c9a22287aa6fc
     <!-- Decorative Background Orbs -->
     <div class="orb orb-primary"></div>
     <div class="orb orb-secondary"></div>
